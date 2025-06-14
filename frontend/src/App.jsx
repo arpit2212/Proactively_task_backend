@@ -1,15 +1,15 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
-import { SocketProvider } from './contexts/SocketContext';
-import Layout from './components/Layout';
-import Login from './components/auth/Login';
-import Register from './components/auth/Register';
-import Dashboard from './components/Dashboard';
-import CreateForm from './components/forms/CreateForm';
-import FormView from './components/forms/FormView';
-import JoinForm from './components/forms/JoinForm';
-import LoadingSpinner from './components/LoadingSpinner';
+import { AuthProvider, useAuth } from '../src/contexts/AuthContext';
+import { SocketProvider } from '../src/contexts/SocketContext';
+import Layout from '../src/components/Layout';
+import Login from '../src/components/auth/Login';
+import Register from '../src/components/auth/Register';
+import Dashboard from '../src/components/DashBoard';
+import CreateForm from '../src/components/forms/CreateForm';
+import FormView from '../src/components/forms/FormView';
+import JoinForm from '../src/components/forms/JoinForm';
+import LoadingSpinner from '../src/components/LoadingSpinner';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
