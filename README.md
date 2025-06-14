@@ -4,7 +4,18 @@ A real-time collaborative form filling system that allows multiple users to work
 
 ## UI SCREENSHOTS 
 
-![Demo Screenshot](./public/demo-screenshot.png)
+![LLogin](https://github.com/arpit2212/Proactively_task_backend/blob/main/frontend/public/login.png)
+![Dashboard](https://github.com/arpit2212/Proactively_task_backend/blob/main/frontend/public/dashboard1.png)
+![Create New Form](https://github.com/arpit2212/Proactively_task_backend/blob/main/frontend/public/createnewform1.png)
+![Join A Form](https://github.com/arpit2212/Proactively_task_backend/blob/main/frontend/public/joinaform.png)
+![View Form](https://github.com/arpit2212/Proactively_task_backend/blob/main/frontend/public/viewform.png)
+![Mobile DashBoard](https://github.com/arpit2212/Proactively_task_backend/blob/main/frontend/public/mobiledashboard.png)
+![Mobile View Form](https://github.com/arpit2212/Proactively_task_backend/blob/main/frontend/public/mobileviewform.png)
+![Mobile Your Form](https://github.com/arpit2212/Proactively_task_backend/blob/main/frontend/public/mobileyourform.png)
+
+
+
+
 
 ## 🌟 Features
 
@@ -18,7 +29,8 @@ A real-time collaborative form filling system that allows multiple users to work
 
 ## 🏗️ Architecture Overview
 
-![Architecture Diagram](./public/architecture-diagram.png)
+![Architecture Diagram](https://github.com/arpit2212/Proactively_task_backend/blob/main/frontend/public/Archdigram1.png)
+![Architecture Diagram](https://github.com/arpit2212/Proactively_task_backend/blob/main/frontend/public/arcdigram2.png)
 
 ### System Design
 
