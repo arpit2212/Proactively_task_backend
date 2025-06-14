@@ -1,0 +1,456 @@
+{
+  "info": {
+    "name": "Collaborative Forms API",
+    "description": "Complete API collection for the Collaborative Forms backend application",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{authToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "authToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "userId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "formId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "item": [
+        {
+          "name": "Server Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": ["{{baseUrl}}"],
+              "path": [""]
+            },
+            "description": "Check if the server is running"
+          },
+          "response": []
+        },
+        {
+          "name": "Test Route",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/test",
+              "host": ["{{baseUrl}}"],
+              "path": ["test"]
+            },
+            "description": "Test basic functionality"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const responseJson = pm.response.json();",
+                  "    pm.collectionVariables.set('authToken', responseJson.token);",
+                  "    pm.collectionVariables.set('userId', responseJson.user.id);",
+                  "    pm.test('Registration successful', function () {",
+                  "        pm.expect(pm.response.code).to.equal(201);",
+                  "        pm.expect(responseJson.token).to.be.a('string');",
+                  "    });",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "register"]
+            },
+            "description": "Register a new user account"
+          },
+          "response": []
+        },
+        {
+          "name": "Login User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const responseJson = pm.response.json();",
+                  "    pm.collectionVariables.set('authToken', responseJson.token);",
+                  "    pm.collectionVariables.set('userId', responseJson.user.id);",
+                  "    pm.test('Login successful', function () {",
+                  "        pm.expect(pm.response.code).to.equal(200);",
+                  "        pm.expect(responseJson.token).to.be.a('string');",
+                  "    });",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            },
+            "description": "Authenticate user and get access token"
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Profile",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "profile"]
+            },
+            "description": "Get current user profile information"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Forms Management",
+      "item": [
+        {
+          "name": "Get All Forms",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/forms?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "forms"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Get all forms for the authenticated user"
+          },
+          "response": []
+        },
+        {
+          "name": "Create New Form",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const responseJson = pm.response.json();",
+                  "    pm.collectionVariables.set('formId', responseJson.form.id);",
+                  "    pm.test('Form created successfully', function () {",
+                  "        pm.expect(pm.response.code).to.equal(201);",
+                  "        pm.expect(responseJson.form.id).to.be.a('string');",
+                  "    });",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Sample Contact Form\",\n  \"description\": \"A sample form for collecting contact information\",\n  \"fields\": [\n    {\n      \"id\": \"name\",\n      \"type\": \"text\",\n      \"label\": \"Full Name\",\n      \"placeholder\": \"Enter your full name\",\n      \"required\": true\n    },\n    {\n      \"id\": \"email\",\n      \"type\": \"email\",\n      \"label\": \"Email Address\",\n      \"placeholder\": \"Enter your email\",\n      \"required\": true\n    },\n    {\n      \"id\": \"phone\",\n      \"type\": \"text\",\n      \"label\": \"Phone Number\",\n      \"placeholder\": \"Enter your phone number\",\n      \"required\": false\n    },\n    {\n      \"id\": \"message\",\n      \"type\": \"textarea\",\n      \"label\": \"Message\",\n      \"placeholder\": \"Enter your message\",\n      \"required\": true\n    },\n    {\n      \"id\": \"priority\",\n      \"type\": \"select\",\n      \"label\": \"Priority\",\n      \"required\": true,\n      \"options\": [\"Low\", \"Medium\", \"High\"]\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/forms",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "forms"]
+            },
+            "description": "Create a new form"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Form by ID",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/forms/{{formId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "forms", "{{formId}}"]
+            },
+            "description": "Get a specific form by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Form",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Contact Form\",\n  \"description\": \"An updated sample form for collecting contact information\",\n  \"fields\": [\n    {\n      \"id\": \"name\",\n      \"type\": \"text\",\n      \"label\": \"Full Name\",\n      \"placeholder\": \"Enter your full name\",\n      \"required\": true\n    },\n    {\n      \"id\": \"email\",\n      \"type\": \"email\",\n      \"label\": \"Email Address\",\n      \"placeholder\": \"Enter your email\",\n      \"required\": true\n    },\n    {\n      \"id\": \"company\",\n      \"type\": \"text\",\n      \"label\": \"Company\",\n      \"placeholder\": \"Enter your company name\",\n      \"required\": false\n    },\n    {\n      \"id\": \"message\",\n      \"type\": \"textarea\",\n      \"label\": \"Message\",\n      \"placeholder\": \"Enter your message\",\n      \"required\": true\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/forms/{{formId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "forms", "{{formId}}"]
+            },
+            "description": "Update an existing form"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Form",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/forms/{{formId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "forms", "{{formId}}"]
+            },
+            "description": "Delete a form"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Collaboration",
+      "item": [
+        {
+          "name": "Add Collaborators",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emails\": [\"collaborator1@example.com\", \"collaborator2@example.com\"],\n  \"permission\": \"edit\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/forms/{{formId}}/collaborate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "forms", "{{formId}}", "collaborate"]
+            },
+            "description": "Add collaborators to a form"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Form Submissions",
+      "item": [
+        {
+          "name": "Submit Form",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"responses\": {\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"phone\": \"+1234567890\",\n    \"message\": \"This is a test submission\",\n    \"priority\": \"High\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/forms/{{formId}}/submit",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "forms", "{{formId}}", "submit"]
+            },
+            "description": "Submit form data"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Form Submissions",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/forms/{{formId}}/submissions?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "forms", "{{formId}}", "submissions"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Get all submissions for a form"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
