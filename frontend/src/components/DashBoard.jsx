@@ -23,6 +23,9 @@ const Dashboard = () => {
   const [copiedCode, setCopiedCode] = useState(''); 
   const { user, token } = useAuth(); // Get token from auth context
 
+  // Construct API base URL from environment variables
+  const apiBaseUrl = `${import.meta.env.VITE_SERVER_URL}${import.meta.env.VITE_API_PATH}`;
+
   useEffect(() => {
     fetchForms();
   }, []);
@@ -36,7 +39,7 @@ const Dashboard = () => {
         return;
       }
 
-      const response = await axios.get('http://localhost:3000/api/forms', {
+      const response = await axios.get(`${apiBaseUrl}/forms`, {
         headers: {
           'Authorization': `Bearer ${token}`, // Include authorization header
           'Content-Type': 'application/json'
@@ -73,7 +76,7 @@ const Dashboard = () => {
           return;
         }
 
-        await axios.delete(`http://localhost:3000/api/forms/${formId}`, {
+        await axios.delete(`${apiBaseUrl}/forms/${formId}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'

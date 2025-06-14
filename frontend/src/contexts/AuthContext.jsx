@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-const AuthContext = createContext();
+// Create the context
+const AuthContext = createContext(null);
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
@@ -15,7 +16,8 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState(localStorage.getItem('token'));
 
-  const API_BASE_URL = 'http://localhost:3000/api';
+  // Use environment variables for API configuration
+  const API_BASE_URL = `${import.meta.env.VITE_SERVER_URL}${import.meta.env.VITE_API_PATH}`;
 
   // Computed property for authentication status
   const isAuthenticated = !!user && !!token;

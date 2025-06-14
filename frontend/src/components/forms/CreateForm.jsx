@@ -134,6 +134,9 @@ const CreateForm = () => {
     fields: []
   });
 
+  // Environment variables
+  const API_BASE_URL = `${import.meta.env.VITE_SERVER_URL}${import.meta.env.VITE_API_PATH}`;
+
   const fieldTypes = [
     { value: 'text', label: 'Text Input' },
     { value: 'textarea', label: 'Text Area' },
@@ -268,7 +271,7 @@ const CreateForm = () => {
         required: field.required
       }));
 
-      const response = await fetch('http://localhost:3000/api/forms', {
+      const response = await fetch(`${API_BASE_URL}/forms`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

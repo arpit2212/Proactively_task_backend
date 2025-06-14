@@ -40,8 +40,11 @@ const JoinForm = () => {
     try {
       console.log('Attempting to join form with share code:', shareCode);
       
+      // Construct API URL using environment variables
+      const apiUrl = `${import.meta.env.VITE_SERVER_URL}${import.meta.env.VITE_API_PATH}/forms/join`;
+      
       // Join the form using the share code
-      const joinResponse = await fetch('http://localhost:3000/api/forms/join', {
+      const joinResponse = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

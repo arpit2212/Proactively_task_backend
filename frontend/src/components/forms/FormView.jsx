@@ -22,10 +22,13 @@ const FormView = () => {
   const [lastSaved, setLastSaved] = useState(null);
   const [error, setError] = useState(null);
 
+  // Get API base URL from environment variables
+  const API_BASE_URL = `${import.meta.env.VITE_SERVER_URL}${import.meta.env.VITE_API_PATH}`;
+
   // Fetch form data
   const fetchForm = useCallback(async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/forms/${formId}`, {
+      const response = await fetch(`${API_BASE_URL}/forms/${formId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -55,7 +58,7 @@ const FormView = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [formId, token]);
+  }, [formId, token, API_BASE_URL]);
 
   // Get default value based on field type
   const getDefaultValue = (fieldType) => {
@@ -231,7 +234,7 @@ const FormView = () => {
   const saveFormResponse = async () => {
     setIsSaving(true);
     try {
-      const response = await fetch(`http://localhost:3000/api/forms/${formId}/response`, {
+      const response = await fetch(`${API_BASE_URL}/forms/${formId}/response`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
